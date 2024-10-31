@@ -1,0 +1,51 @@
+body {
+    background-color: #e2f2ff;
+    display: flex;
+    justify-content: center;
+}
+
+.home-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.logo {
+    width: 500px;
+}
+
+h1 {
+    color: white;
+    background-color: #005caa;
+    margin: 20px 0;
+    margin-bottom: 80px;
+}
+
+
+/*Abaixo temos apenas o css dos botões de navegação*/
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    flex-wrap: wrap;
+}
+
+.button {
+    background-color: #005caa;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    width: 120px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: darkblue;
+}
+
+.icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
