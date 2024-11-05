@@ -1,7 +1,7 @@
 import React from 'react';
 
-const MovimentacaoPage = () => {
+const MovimentacaoTela = () => {
     return <h2>Controle de Movimentação</h2>;
 };
 
-export default MovimentacaoPage;
+export default MovimentacaoTela;

@@ -1,5 +1,4 @@
 body {
-    background-color: #e2f2ff;
     display: flex;
     justify-content: center;
 }
@@ -21,7 +20,7 @@ h1 {
 }
 
 
-/*Abaixo temos apenas o css dos botões de navegação*/
+/*Abaixo temos apenas o css dos botões de navegação, comentando em caso de querermos mudar as imagens depois*/
 .button-container {
     display: flex;
     justify-content: center;

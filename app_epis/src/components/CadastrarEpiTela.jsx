@@ -1,7 +1,7 @@
 import React from 'react';
 
-const CadastrarEpiPage = () => {
+const CadastrarEpiTela = () => {
     return <h2>Cadastrar EPI</h2>;
 };
 
-export default CadastrarEpiPage;
+export default CadastrarEpiTela;

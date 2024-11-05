@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './HistoricoTela.css';
 
-const HistoricoPage = () => {
+const HistoricoTela = () => {
     const [historico, setHistorico] = useState([]);
     const [funcionarios, setFuncionarios] = useState([]);
     const [epis, setEpis] = useState([]);
@@ -49,4 +50,4 @@ const HistoricoPage = () => {
     );
 };
 
-export default HistoricoPage;
+export default HistoricoTela;

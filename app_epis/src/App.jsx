@@ -1,20 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './components/HomePage';
-import MovimentacaoPage from './components/MovimentacaoPage';
-import CadastrarFuncionarioPage from './components/CadastrarFuncionarioPage';
-import CadastrarEpiPage from './components/CadastrarEpiPage';
-import HistoricoPage from './components/HistoricoPage';
+import HomeTela from './components/HomeTela';
+import MovimentacaoTela from './components/MovimentacaoTela';
+import CadastrarFuncionarioTela from './components/CadastrarFuncionarioTela';
+import CadastrarEpiTela from './components/CadastrarEpiTela';
+import HistoricoTela from './components/HistoricoTela';
 
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/movimentacao" element={<MovimentacaoPage />} />
-                <Route path="/cadastrar-funcionario" element={<CadastrarFuncionarioPage />} />
-                <Route path="/cadastrar-epi" element={<CadastrarEpiPage />} />
-                <Route path="/historico" element={<HistoricoPage />} />
+                <Route path="/" element={<HomeTela />} />
+                <Route path="/movimentacao" element={<MovimentacaoTela />} />
+                <Route path="/cadastrar-funcionario" element={<CadastrarFuncionarioTela />} />
+                <Route path="/cadastrar-epi" element={<CadastrarEpiTela />} />
+                <Route path="/historico" element={<HistoricoTela />} />
             </Routes>
         </Router>
     );
