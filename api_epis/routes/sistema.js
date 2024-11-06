@@ -7,7 +7,7 @@ devolverMovimentacao, removerMovimentacao } from '../controllers/sistema.js'
 router.get('/epi', listarEpi)
 router.get('/epi/:id', detalhesEpi)
 router.post('/epi', cadastrarEpi)
-router.put('/epi', atualizarEpi)
+router.put('/epi/:id', atualizarEpi)
 router.delete('/epi/:id', removerEpi)
 
 router.get('/funcionario', listarFuncionario)

@@ -37,12 +37,24 @@ const HistoricoTela = () => {
     if (error) return <h2>Erro: {error.message}</h2>;
 
     return (
-        <div>
+        <div className="historico-container">
+            <img src="https://ecommerce.sesisenai.org.br/images/logos/sesi-senai.webp" alt="Logo" className="logo" />
             <h2>Histórico</h2>
+
+            <div className="historico-header">
+                <span>Funcionário</span>
+                <span>EPI</span>
+                <span>Data</span>
+                <span>Ação</span>
+            </div>
+            
             <ul>
                 {historico.map(item => (
                     <li key={item.id}>
-                        {item.funcionario_nome} - {item.epi_nome} - {item.data} - {item.acao}
+                        <span>{item.funcionario_nome}</span>
+                        <span>{item.epi_nome}</span>
+                        <span>{item.data}</span>
+                        <span>{item.acao}</span>
                     </li>
                 ))}
             </ul>
