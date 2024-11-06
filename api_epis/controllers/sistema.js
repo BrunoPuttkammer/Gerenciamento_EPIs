@@ -141,7 +141,7 @@ const listarMovimentacao = async (req, res) => {
     try {
         const resultado = await database.query(
             'SELECT m.id, m.data, f.nome AS funcionario_nome, e.nome AS epi_nome, m.acao FROM movimentacoes m JOIN funcionarios f ON m.id_funcionario = f.id JOIN epis e ON m.id_epi = e.id'
-            );
+        );
 
         const dadosFormatados = resultado.rows.map(mov => ({
             id: mov.id,
@@ -163,28 +163,28 @@ const retirarMovimentacao = async (req, res) => {
     try {
         await database.query('BEGIN');
 
-        const resultado = await database.query(
-            `SELECT quantidade FROM public.epis WHERE id = $1`,
-            [id_epi]
-        );
+        console.log(`EP: ${id_epi}, F: ${id_funcionario}`)
 
-        if (resultado.rows.length === 0 || resultado.rows[0].quantidade <= 0) {
+        const resultado = await database.query(
+            `SELECT quantidade FROM public.epis WHERE id = 1`
+        );
+        
+        console.log(resultado.rows)
+        if (resultado.rows.length == 0 || resultado.rows[0].quantidade <= 0) {
             await database.query('ROLLBACK');
             return res.status(400).send({ mensagem: 'EPI indisponível para retirada.' });
         }
 
         await database.query(
-            `INSERT INTO public.movimentacoes (id_funcionario, id_epi, acao) VALUES ($1, $2, 'retirou')`,
-            [id_funcionario, id_epi]
+            `INSERT INTO public.movimentacoes (id_funcionario, id_epi, acao) VALUES (${id_funcionario}, ${id_epi}, 'retirou')`,
         );
 
         await database.query(
-            `UPDATE public.epis SET quantidade = quantidade - 1 WHERE id = $1`,
-            [id_epi]
+            `UPDATE public.epis SET quantidade = quantidade - 1 WHERE id = ${id_epi}`,
         );
 
         await database.query('COMMIT');
-        
+
         res.status(201).send({ mensagem: 'Movimentação adicionada e quantidade de EPI atualizada!' });
     } catch (error) {
         await database.query('ROLLBACK');
@@ -199,8 +199,8 @@ const devolverMovimentacao = async (req, res) => {
         await database.query('BEGIN');
 
         const resultadoRetirou = await database.query(
-            `SELECT COUNT(*) as total_retiradas FROM public.movimentacoes WHERE id_funcionario = $1 AND id_epi = $2 AND acao = 'retirou'`,
-            [id_funcionario, id_epi]
+            `SELECT COUNT(*)  public.movimentacoes (id_funcionario, id_epi, acao) VALUES (${id_funcionario}, ${id_epi}, 'devolveu')`,
+            
         );
 
         const totalRetiradas = parseInt(resultadoRetirou.rows[0].total_retiradas, 10);
@@ -250,6 +250,8 @@ const removerMovimentacao = async (req, res) => {
     }
 };
 
-export { listarEpi, detalhesEpi, cadastrarEpi, atualizarEpi, removerEpi,
-listarFuncionario, detalhesFuncionario, cadastrarFuncionario, atualizarFuncionario, removerFuncionario, 
-listarMovimentacao, retirarMovimentacao, devolverMovimentacao, removerMovimentacao };
+export {
+    listarEpi, detalhesEpi, cadastrarEpi, atualizarEpi, removerEpi,
+    listarFuncionario, detalhesFuncionario, cadastrarFuncionario, atualizarFuncionario, removerFuncionario,
+    listarMovimentacao, retirarMovimentacao, devolverMovimentacao, removerMovimentacao
+};
