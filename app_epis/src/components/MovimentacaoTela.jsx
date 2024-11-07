@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import './ControleMovimentacao.css';
+import './MovimentacaoTela.css';
 import axios from "axios"
 
-function ControleMovimentacao() {
+function MovimentacaoTela() {
 
     const [item, setItem] = useState({ id_funcionario: 0, id_epi: 0 })
     const [funcionario, setFuncionarios] = useState([])
@@ -48,12 +48,12 @@ function ControleMovimentacao() {
                     <input type="number" className="input" placeholder="Nome do EPI" onChange={(e) => item.id_epi = e.target.value} />
                 </div>
                 <div className="buttons">
-                    <button className="button" onClick={() => retirarMovimentacao()}>Retirar EPI</button>
-                    <button className="button"onClick={() => devolverMovimentacao()}>Devolver EPI</button>
+                    <button className="mov_button" onClick={() => retirarMovimentacao()}>Retirar EPI</button>
+                    <button className="mov_button"onClick={() => devolverMovimentacao()}>Devolver EPI</button>
                 </div>
             </div>
         </div>
     );
 
 }
-export default ControleMovimentacao;
+export default MovimentacaoTela;

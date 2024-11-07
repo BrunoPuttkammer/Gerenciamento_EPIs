@@ -61,7 +61,7 @@ label {
     margin-top: 10px;
 }
 
-.button {
+.mov_button {
     background-color: white;
     color: #1e73be;
     border: none;
@@ -73,6 +73,6 @@ label {
     transition: background-color 0.3s;
 }
 
-.button:hover {
+.mov_button:hover {
     background-color: #d0e9ff;
 }

@@ -6,6 +6,7 @@ body {
 .historico-container {
     text-align: center;
     padding: 20px;
+    max-width: 1000px; /* Define um limite de largura para o contêiner */
 }
 
 .logo {
@@ -22,14 +23,18 @@ h2 {
 
 .historico-header {
     display: grid;
-    grid-template-columns: 2fr 2fr 2fr 2fr;
-    grid-gap: 40px;
+    grid-template-columns: 2fr 2fr 2fr 1fr;
+    grid-gap: 10px;
     font-weight: bold;
     color: white;
     background-color: #005caa;
+    padding: 10px 0;
 }
 
 .historico-header span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
@@ -40,12 +45,14 @@ ul {
 
 li {
     display: grid;
-    grid-template-columns: 2fr 3fr 3fr 1fr;
+    grid-template-columns: 2fr 2fr 2fr 1fr;
     background-color: #F7F7F7;
     color: black;
     font-weight: bold;
-    height: 25px;
-    width: 700px;
+    padding: 5px 0;
+    margin-bottom: 2px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 li:nth-child(odd) {
@@ -53,5 +60,11 @@ li:nth-child(odd) {
 }
 
 li span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    padding: 0 5px;
 }
