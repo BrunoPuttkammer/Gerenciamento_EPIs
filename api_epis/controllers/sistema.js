@@ -199,9 +199,10 @@ const devolverMovimentacao = async (req, res) => {
         await database.query('BEGIN');
 
         const resultadoRetirou = await database.query(
-            `SELECT COUNT(*)  public.movimentacoes (id_funcionario, id_epi, acao) VALUES (${id_funcionario}, ${id_epi}, 'devolveu')`,
-            
+            `SELECT COUNT(*) public.movimentacoes(id_funcionario, id_epi, acao) VALUES (${id_funcionario}, ${id_epi}, 'devolveu')`,
         );
+
+        console.log(resultadoRetirou)
 
         const totalRetiradas = parseInt(resultadoRetirou.rows[0].total_retiradas, 10);
 

@@ -28,8 +28,12 @@ function ControleMovimentacao() {
 
 
     const retirarMovimentacao = async () => {
-        console.log(item)
         const res = await axios.post("http://localhost:3001/movimentacao/retirar", item)
+    }
+
+    const devolverMovimentacao = async () => {
+        console.log(item)
+        await axios.post("http://localhost:3001/movimentacao/devolver", item)
     }
 
 
@@ -49,7 +53,7 @@ function ControleMovimentacao() {
                 </div>
                 <div className="buttons">
                     <button className="button" onClick={() => retirarMovimentacao()}>Retirar EPI</button>
-                    <button className="button"onClick={() => devolverMovimentacao()}>Devolver EPI</button>
+                    <button className="button" onClick={() => devolverMovimentacao()}>Devolver EPI</button>
                 </div>
             </div>
         </div>
