@@ -1,7 +1,7 @@
 import database from '../database.js';
 
 
-//EPIs --------------------------------------------------------------------------------------------
+//epi --------------------------------------------------------------------------------------------
 
 const listarEpi = async (req, res) => {
     try {
@@ -27,11 +27,11 @@ const detalhesEpi = async (req, res) => {
 const cadastrarEpi = async (req, res) => {
     const { nome, descricao, quantidade } = req.body;
     try {
-        await database.query(
-            `INSERT INTO public.epis ( nome, descricao, quantidade) VALUES ($1, $2, $3)`,
+        const novoEpi = await database.query(
+            `INSERT INTO public.epis ( nome, descricao, quantidade) VALUES ($1, $2, $3) RETURNING ID`,
             [nome, descricao, quantidade]
         );
-        res.status(201).send({ mensagem: 'EPI adicionado!' });
+        res.status(201).send({ mensagem: 'EPI adicionado!', epi: novoEpi.rows });
     } catch (error) {
         console.error(error);
         res.status(500).send({ mensagem: 'Erro ao cadastrar EPI' });
