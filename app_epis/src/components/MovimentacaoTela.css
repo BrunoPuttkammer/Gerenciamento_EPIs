@@ -1,18 +1,30 @@
-/* Container */
-.container {
+.movimentacao-body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+}
+
+.movimentacao-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #e0f0ff;
     padding: 20px;
     border-radius: 8px;
-    width: 300px;
-    margin: 0 auto;
+    width: 500px;
+    margin-top: 20px;
 }
 
-/* Header */
-.header {
-    background-color: #1e73be;
+.movimentacao-logo {
+    width: 400px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    background-color: #005caa;
     color: white;
     padding: 10px;
     font-size: 1.2em;
@@ -20,11 +32,11 @@
     text-align: center;
     width: 100%;
     border-radius: 8px 8px 10px 10px;
+    margin-bottom: 30px;
 }
 
-/* Box */
-.box {
-    background-color: #2c7bc7;
+.movimentacao-box {
+    background-color: #005caa;
     padding: 20px;
     border-radius: 8px;
     width: 100%;
@@ -33,20 +45,23 @@
     align-items: center;
 }
 
-/* Input group */
-.input-group {
+.movimentacao-input-group {
     margin-bottom: 15px;
     width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 label {
     color: white;
     font-size: 0.9em;
-    margin-bottom: 5px;
+    margin-right: 10px;
     display: block;
+    font-weight: bold;
+    width: 25%;
 }
 
-.input {
+.movimentacao-input {
     width: 100%;
     padding: 8px;
     border: none;
@@ -54,16 +69,15 @@ label {
     font-size: 1em;
 }
 
-/* Buttons */
-.buttons {
+.movimentacao-buttons {
     display: flex;
     gap: 10px;
     margin-top: 10px;
 }
 
-.mov_button {
+.movimentacao-button {
     background-color: white;
-    color: #1e73be;
+    color: #005caa;
     border: none;
     border-radius: 4px;
     padding: 8px 12px;
@@ -73,6 +87,6 @@ label {
     transition: background-color 0.3s;
 }
 
-.mov_button:hover {
+.movimentacao-button:hover {
     background-color: #d0e9ff;
 }

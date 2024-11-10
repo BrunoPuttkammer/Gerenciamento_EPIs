@@ -1,52 +1,53 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #e3f1fd;
-}
-
-.form-container {
-    width: 500px;
+.cadastro-funcionario-form-container {
+    width: 600px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #b9d9eb;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border: 2px solid #9e74b7;
 }
 
-h2 {
+.cadastro-funcionario-logo {
+    display: block;
+    margin: 0 auto 15px auto;
+    max-width: 400px;
+}
+
+.cadastro-funcionario-titulo {
     text-align: center;
-    background-color: #0b68b3;
+    background-color: #005caa;
     color: white;
     padding: 10px;
     border-radius: 5px;
 }
 
-.input-group {
+.cadastro-funcionario-input-group {
+    display: flex;
+    align-items: center;
     margin: 15px 0;
 }
 
-label {
-    display: block;
+.cadastro-funcionario-input-group label {
+    margin-right: 10px;
+    width: 80px;
     color: #333;
     font-weight: bold;
-    margin-bottom: 5px;
 }
 
-input[type="text"] {
+.cadastro-funcionario-input-group input[type="text"] {
     width: 100%;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ddd;
     margin-top: 5px;
     box-sizing: border-box;
+    background-color: #b9d9eb;
 }
 
-.button-group {
+.cadastro-funcionario-button-group {
     text-align: center;
     margin-top: 15px;
 }
 
-button {
+.cadastro-funcionario-button-save {
+    background-color: #28a745;
     padding: 10px 15px;
     border-radius: 5px;
     color: white;
@@ -56,58 +57,89 @@ button {
     margin: 5px;
 }
 
-.button-save {
-    background-color: #28a745;
+.cadastro-funcionario-button-update {
+    background-color: #FFBD59;
+    width: 80px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
 }
 
-.button-update {
-    background-color: #ffc107;
+.cadastro-funcionario-button-cancel {
+    background-color: #FF5757;
+    width: 80px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
 }
 
-.button-cancel {
-    background-color: #6c757d;
+.cadastro-funcionario-button-edit,
+.cadastro-funcionario-button-delete {
+    width: 80px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
 }
 
-.button-edit {
-    background-color: #17a2b8;
+.cadastro-funcionario-button-edit {
+    background-color: #FFBD59;
 }
 
-.button-delete {
-    background-color: #dc3545;
+.cadastro-funcionario-button-delete {
+    background-color: #FF5757;
 }
 
-table {
+.cadastro-funcionario-table {
     width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
-    background-color: #0b68b3;
-    color: white;
+    background-color: #005caa;
+    color: black;
+    font-weight: bold;
     border-radius: 5px;
     overflow: hidden;
 }
 
-table th, table td {
+.cadastro-funcionario-table th,
+.cadastro-funcionario-table td {
     padding: 10px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #005caa;
 }
 
-table th {
-    background-color: #0b68b3;
+.cadastro-funcionario-table th {
+    background-color: #005caa;
     color: white;
 }
 
-table td {
-    background-color: #e3f1fd;
-    color: #333;
+.cadastro-funcionario-table td {
     text-align: center;
 }
 
-table td:last-child {
+.cadastro-funcionario-table tbody tr:nth-child(odd) {
+    background-color: #F7F7F7;
+}
+
+.cadastro-funcionario-table tbody tr:nth-child(even) {
+    background-color: #D2DBEB;
+}
+
+.cadastro-funcionario-table td:last-child {
     text-align: center;
 }
 
-button.button-edit, button.button-delete {
-    padding: 5px 10px;
-    font-size: 14px;
+.cadastro-funcionario-table td:nth-child(3) {
+    min-width: 120px;
 }

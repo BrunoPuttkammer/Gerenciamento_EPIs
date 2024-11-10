@@ -1,92 +1,155 @@
-.form-container {
-    background-color: #e0f0ff;
+.cadastrar-epi-form-container {
+    width: 600px;
+    margin: 20px auto;
     padding: 20px;
-    max-width: 600px;
-    margin: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
 }
 
-h2 {
-    background-color: #064279;
-    color: #fff;
+.cadastrar-epi-logo {
+    display: block;
+    margin: 0 auto 15px auto;
+    max-width: 400px;
+}
+
+.cadastrar-epi-titulo {
+    text-align: center;
+    background-color: #005caa;
+    color: white;
     padding: 10px;
     border-radius: 5px;
-    margin-bottom: 20px;
 }
 
-.input-group {
-    margin: 10px 0;
+.cadastrar-epi-input-group {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
 }
 
-.input-group label {
-    display: block;
+.cadastrar-epi-input-group label {
+    margin-right: 10px;
+    width: 80px;
+    color: #333;
     font-weight: bold;
-    color: #064279;
+    width: 20%;
 }
 
-.input-group input {
+.cadastrar-epi-input-group input[type="text"],
+.cadastrar-epi-input-group input[type="number"] {
     width: 100%;
     padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
     margin-top: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #b9d9eb;
 }
 
-.button-group {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+.cadastrar-epi-button-group {
+    text-align: center;
+    margin-top: 15px;
 }
 
-.button-save {
+.cadastrar-epi-button-save {
     background-color: #28a745;
+    padding: 10px 15px;
+    border-radius: 5px;
     color: white;
-    padding: 10px 20px;
+    font-weight: bold;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
+    margin: 5px;
 }
 
-.button-update {
-    background-color: #ffc107;
+.cadastrar-epi-button-update {
+    background-color: #FFBD59;
+    width: 80px;
+    padding: 5px 10px;
+    font-size: 14px;
     color: white;
-    padding: 10px 20px;
+    font-weight: bold;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
+    margin: 5px;
 }
 
-.button-delete {
-    background-color: #dc3545;
+.cadastrar-epi-button-cancel {
+    background-color: #FF5757;
+    width: 80px;
+    padding: 5px 10px;
+    font-size: 14px;
     color: white;
-    padding: 10px 20px;
+    font-weight: bold;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
+    margin: 5px;
 }
 
-table {
+.cadastrar-epi-button-edit,
+.cadastrar-epi-button-delete {
+    width: 80px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.cadastrar-epi-button-edit {
+    background-color: #FFBD59;
+}
+
+.cadastrar-epi-button-delete {
+    background-color: #FF5757;
+}
+
+.cadastrar-epi-table {
     width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
+    background-color: #005caa;
+    color: black;
+    font-weight: bold;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
-table th {
-    background-color: #064279;
-    color: #fff;
+.cadastrar-epi-table th,
+.cadastrar-epi-table td {
     padding: 10px;
+    text-align: left;
+    border: 1px solid #005caa;
+    box-sizing: border-box;
 }
 
-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
+.cadastrar-epi-table th {
+    background-color: #005caa;
+    color: white;
 }
 
-.button-edit, .button-delete {
-    margin: 0 5px;
-    padding: 5px 10px;
-    font-size: 0.9em;
+.cadastrar-epi-table td {
+    text-align: center;
+}
+
+.cadastrar-epi-table td:last-child {
+    text-align: center;
+}
+
+.cadastrar-epi-table td:nth-child(3) {
+    min-width: 150px
+}
+
+.cadastrar-epi-table tbody tr:nth-child(odd) {
+    background-color: #F7F7F7;
+}
+
+.cadastrar-epi-table tbody tr:nth-child(even) {
+    background-color: #D2DBEB;
+}
+
+.cadastrar-epi-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }

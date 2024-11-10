@@ -7,24 +7,22 @@ const CadastrarEpiTela = () => {
     const [formData, setFormData] = useState({
         nome: '',
         descricao: '',
-        quantidade:1
+        quantidade: 1
     });
     const [editingId, setEditingId] = useState(null);
 
     useEffect(() => {
-        console.log("Fetching EPIs from the server..."); 
         const fetchEpis = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/epi');
                 setEpis(response.data);
-                console.log("EPIs carregados:", response.data);
             } catch (error) {
                 console.error("Erro ao carregar EPIs:", error);
             }
         };
 
         fetchEpis();
-    }, []); 
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -32,14 +30,11 @@ const CadastrarEpiTela = () => {
     };
 
     const handleSave = async () => {
-        console.log("Tentando salvar EPI:", formData);
-
         if (formData.nome && formData.descricao) {
             try {
                 const response = await axios.post('http://localhost:3001/epi', formData);
-                setEpis((prevEpis) => [...prevEpis, {...formData, id: response.data.epi[0].id}]);
+                setEpis((prevEpis) => [...prevEpis, { ...formData, id: response.data.epi[0].id }]);
                 setFormData({ nome: '', descricao: '', quantidade: 1 });
-                console.log("EPI salvo com sucesso:", response.data.epi[0].id); 
             } catch (error) {
                 console.error("Erro ao salvar EPI:", error);
             }
@@ -55,7 +50,7 @@ const CadastrarEpiTela = () => {
                 setEpis((prevEpis) =>
                     prevEpis.map((epi) => epi.id === editingId ? response.data : epi)
                 );
-                setFormData({ nome: '', descricao: '', quantidade: 1  });
+                setFormData({ nome: '', descricao: '', quantidade: 1 });
                 setEditingId(null);
             } catch (error) {
                 console.error("Erro ao atualizar EPI:", error);
@@ -75,56 +70,66 @@ const CadastrarEpiTela = () => {
     };
 
     const handleEditClick = (epi) => {
-        setFormData({ nome: epi.nome, descricao: epi.descricao, quantidade: 1  });
+        setFormData({ nome: epi.nome, descricao: epi.descricao, quantidade: 1 });
         setEditingId(epi.id);
     };
 
     const handleCancelEdit = () => {
-        setFormData({ nome: '', descricao: '', quantidade: 1  });
+        setFormData({ nome: '', descricao: '', quantidade: 1 });
         setEditingId(null);
     };
 
     return (
-        <div className="form-container">
-            <h2>Cadastrar EPI</h2>
-            <div className="input-group">
-                <label>ID:</label>
-                <input type="text" disabled value={editingId || ''} />
-            </div>
-            <div className="input-group">
+        <div className="cadastrar-epi-form-container">
+            <img src="https://ecommerce.sesisenai.org.br/images/logos/sesi-senai.webp" alt="Logo" className="cadastrar-epi-logo" />
+            <h2 className="cadastrar-epi-titulo">Cadastrar EPI</h2>
+            <div className="cadastrar-epi-input-group">
                 <label>Nome:</label>
                 <input
                     type="text"
                     name="nome"
                     value={formData.nome}
                     onChange={handleInputChange}
+                    placeholder='Digite aqui...'
                 />
             </div>
-            <div className="input-group">
+            <div className="cadastrar-epi-input-group">
                 <label>Descrição:</label>
                 <input
                     type="text"
                     name="descricao"
                     value={formData.descricao}
                     onChange={handleInputChange}
+                    placeholder='Digite aqui...'
                 />
             </div>
-            <div className="button-group">
+            <div className="cadastrar-epi-input-group">
+                <label>Quantidade:</label>
+                <input
+                    type="number"
+                    name="quantidade"
+                    value={formData.quantidade}
+                    onChange={handleInputChange}
+                    placeholder='Digite aqui...'
+                />
+            </div>
+            <div className="cadastrar-epi-button-group">
                 {editingId ? (
                     <>
-                        <button onClick={handleUpdate} className="button-update">Atualizar</button>
-                        <button onClick={handleCancelEdit} className="button-cancel">Cancelar</button>
+                        <button onClick={handleUpdate} className="cadastrar-epi-button-update">Atualizar</button>
+                        <button onClick={handleCancelEdit} className="cadastrar-epi-button-cancel">Cancelar</button>
                     </>
                 ) : (
-                    <button onClick={handleSave} className="button-save">Salvar</button>
+                    <button onClick={handleSave} className="cadastrar-epi-button-save">Salvar</button>
                 )}
             </div>
-            <table>
+            <table className="cadastrar-epi-table">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Descrição</th>
+                        <th>Quantidade</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -134,9 +139,10 @@ const CadastrarEpiTela = () => {
                             <td>{epi.id}</td>
                             <td>{epi.nome}</td>
                             <td>{epi.descricao}</td>
-                            <td>
-                                <button onClick={() => handleEditClick(epi)} className="button-edit">Editar</button>
-                                <button onClick={() => handleDelete(epi.id)} className="button-delete">Deletar</button>
+                            <td>{epi.quantidade}</td>
+                            <td className="cadastrar-epi-actions">
+                                <button onClick={() => handleEditClick(epi)} className="cadastrar-epi-button-edit">Editar</button>
+                                <button onClick={() => handleDelete(epi.id)} className="cadastrar-epi-button-delete">Deletar</button>
                             </td>
                         </tr>
                     ))}

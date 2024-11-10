@@ -1,19 +1,25 @@
-body {
+.historico-body {
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
 }
 
 .historico-container {
     text-align: center;
     padding: 20px;
-    max-width: 1000px; /* Define um limite de largura para o contêiner */
+    max-width: 600px;
+    margin-top: 20px;
+    width: 100%;
 }
 
-.logo {
+.historico-logo {
     width: 400px;
 }
 
-h2 {
+.historico-titulo {
     font-size: 30px;
     color: white;
     background-color: #005caa;
@@ -38,12 +44,12 @@ h2 {
     text-align: center;
 }
 
-ul {
+.historico-lista {
     padding: 0;
     margin: 0;
 }
 
-li {
+.historico-item {
     display: grid;
     grid-template-columns: 2fr 2fr 2fr 1fr;
     background-color: #F7F7F7;
@@ -55,11 +61,11 @@ li {
     box-sizing: border-box;
 }
 
-li:nth-child(odd) {
+.historico-item:nth-child(odd) {
     background-color: #D2DBEB;
 }
 
-li span {
+.historico-item span {
     display: flex;
     justify-content: center;
     align-items: center;

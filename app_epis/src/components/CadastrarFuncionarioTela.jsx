@@ -79,37 +79,40 @@ const CadastrarFuncionarioTela = () => {
     };
 
     return (
-        <div className="form-container">
-            <h2>Cadastrar Funcionário</h2>
-            <div className="input-group">
+        <div className="cadastro-funcionario-form-container">
+            <img src="https://ecommerce.sesisenai.org.br/images/logos/sesi-senai.webp" alt="Logo" className="cadastro-funcionario-logo" />
+            <h2 className="cadastro-funcionario-titulo">Cadastrar Funcionário</h2>
+            <div className="cadastro-funcionario-input-group">
                 <label>Nome:</label>
                 <input
                     type="text"
                     name="nome"
                     value={formData.nome}
                     onChange={handleInputChange}
+                    placeholder='Digite aqui...'
                 />
             </div>
-            <div className="input-group">
+            <div className="cadastro-funcionario-input-group">
                 <label>Telefone:</label>
                 <input
                     type="text"
                     name="telefone"
                     value={formData.telefone}
                     onChange={handleInputChange}
+                    placeholder='(00)90000-0000'
                 />
             </div>
-            <div className="button-group">
+            <div className="cadastro-funcionario-button-group">
                 {editingId ? (
                     <>
-                        <button onClick={handleUpdate} className="button-update">Atualizar</button>
-                        <button onClick={handleCancelEdit} className="button-cancel">Cancelar</button>
+                        <button onClick={handleUpdate} className="cadastro-funcionario-button-update">Atualizar</button>
+                        <button onClick={handleCancelEdit} className="cadastro-funcionario-button-cancel">Cancelar</button>
                     </>
                 ) : (
-                    <button onClick={handleSave} className="button-save">Salvar</button>
+                    <button onClick={handleSave} className="cadastro-funcionario-button-save">Salvar</button>
                 )}
             </div>
-            <table>
+            <table className="cadastro-funcionario-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -125,8 +128,8 @@ const CadastrarFuncionarioTela = () => {
                             <td>{funcionario.nome}</td>
                             <td>{funcionario.telefone}</td>
                             <td>
-                                <button onClick={() => handleEditClick(funcionario)} className="button-edit">Editar</button>
-                                <button onClick={() => handleDelete(funcionario.id)} className="button-delete">Deletar</button>
+                                <button onClick={() => handleEditClick(funcionario)} className="cadastro-funcionario-button-edit">Editar</button>
+                                <button onClick={() => handleDelete(funcionario.id)} className="cadastro-funcionario-button-delete">Deletar</button>
                             </td>
                         </tr>
                     ))}

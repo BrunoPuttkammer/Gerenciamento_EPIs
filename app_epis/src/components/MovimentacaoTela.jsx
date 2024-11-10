@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './MovimentacaoTela.css';
-import axios from "axios"
+import axios from "axios";
 
 function MovimentacaoTela() {
-
-    const [item, setItem] = useState({ id_funcionario: 0, id_epi: 0 })
-    const [funcionario, setFuncionarios] = useState([])
-    const [epi, setEpis] = useState([])
+    const [item, setItem] = useState({ id_funcionario: 0, id_epi: 0 });
+    const [funcionario, setFuncionarios] = useState([]);
+    const [epi, setEpis] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,32 +27,49 @@ function MovimentacaoTela() {
 
 
     const retirarMovimentacao = async () => {
-        console.log(item)
-        const res = await axios.post("http://localhost:3001/movimentacao/retirar", item)
+        console.log(item);
+        const res = await axios.post("http://localhost:3001/movimentacao/retirar", item);
     }
 
+    const devolverMovimentacao = async () => {
+        console.log(item);
+        const res = await axios.post("http://localhost:3001/movimentacao/devolver", item);
+    }
 
     return (
-        <div className="container">
-            <div className="header">
-                Controle de Movimentação
+        <body className="movimentacao-body">
+            <div className="movimentacao-container">
+                <img src="https://ecommerce.sesisenai.org.br/images/logos/sesi-senai.webp" alt="Logo" className="movimentacao-logo" />
+                <h2>Controle de Movimentação</h2>
+                <div className="movimentacao-box">
+                    <div className="movimentacao-input-group">
+                        <label htmlFor="id_funcionario">Funcionário:</label>
+                        <input
+                            type="number"
+                            className="movimentacao-input"
+                            id="id_funcionario"
+                            placeholder="Nome do funcionário"
+                            onChange={(e) => setItem({ ...item, id_funcionario: e.target.value })}
+                        />
+                    </div>
+                    <div className="movimentacao-input-group">
+                        <label htmlFor="id_epi">EPI:</label>
+                        <input
+                            type="number"
+                            className="movimentacao-input"
+                            id="id_epi"
+                            placeholder="Nome do EPI"
+                            onChange={(e) => setItem({ ...item, id_epi: e.target.value })}
+                        />
+                    </div>
+                    <div className="movimentacao-buttons">
+                        <button className="movimentacao-button" onClick={retirarMovimentacao}>Retirar EPI</button>
+                        <button className="movimentacao-button" onClick={devolverMovimentacao}>Devolver EPI</button>
+                    </div>
+                </div>
             </div>
-            <div className="box">
-                <div className="input-group">
-                    <label>Funcionário:</label>
-                    <input type="number" className="input" placeholder="Nome do funcionário" onChange={(e) => item.id_funcionario = e.target.value} />
-                </div>
-                <div className="input-group">
-                    <label>EPI:</label>
-                    <input type="number" className="input" placeholder="Nome do EPI" onChange={(e) => item.id_epi = e.target.value} />
-                </div>
-                <div className="buttons">
-                    <button className="mov_button" onClick={() => retirarMovimentacao()}>Retirar EPI</button>
-                    <button className="mov_button"onClick={() => devolverMovimentacao()}>Devolver EPI</button>
-                </div>
-            </div>
-        </div>
+        </body>
     );
-
 }
+
 export default MovimentacaoTela;
