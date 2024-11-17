@@ -44,7 +44,7 @@ const atualizarEpi = async (req, res) => {
     try {
         await database.query(
             `UPDATE public.epis
-            SET nome='${nome}', descricao='${descricao}, quantidade='${quantidade}'
+            SET nome='${nome}', descricao='${descricao}', quantidade='${quantidade}'
             WHERE id = '${id}';`
         );
         res.status(201).send({ mensagem: 'EPI atualizado!' });

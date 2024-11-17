@@ -26,6 +26,10 @@ const CadastrarEpiTela = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === "nome" && !/^[a-zA-ZÀ-ÿ\s]*$/.test(value)) return;
+        if (name === "quantidade" && (isNaN(value) || value <= 0 || value.includes('.'))) return;
+
         setFormData({ ...formData, [name]: value });
     };
 
@@ -47,8 +51,9 @@ const CadastrarEpiTela = () => {
         if (editingId && formData.nome && formData.descricao) {
             try {
                 const response = await axios.put(`http://localhost:3001/epi/${editingId}`, formData);
+                console.log("Resposta da atualização:", response.data);
                 setEpis((prevEpis) =>
-                    prevEpis.map((epi) => epi.id === editingId ? response.data : epi)
+                    prevEpis.map((epi) => epi.id === editingId ? { ...epi, ...formData } : epi)
                 );
                 setFormData({ nome: '', descricao: '', quantidade: 1 });
                 setEditingId(null);
@@ -59,7 +64,7 @@ const CadastrarEpiTela = () => {
             alert("Por favor, preencha todos os campos!");
         }
     };
-
+    
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:3001/epi/${id}`);
@@ -70,7 +75,7 @@ const CadastrarEpiTela = () => {
     };
 
     const handleEditClick = (epi) => {
-        setFormData({ nome: epi.nome, descricao: epi.descricao, quantidade: 1 });
+        setFormData({ nome: epi.nome, descricao: epi.descricao, quantidade: epi.quantidade });
         setEditingId(epi.id);
     };
 
@@ -82,7 +87,7 @@ const CadastrarEpiTela = () => {
     return (
         <div className="cadastrar-epi-form-container">
             <img src="https://ecommerce.sesisenai.org.br/images/logos/sesi-senai.webp" alt="Logo" className="cadastrar-epi-logo" />
-            <h2 className="cadastrar-epi-titulo">Cadastrar EPI</h2>
+            <h2>Cadastrar EPI</h2>
             <div className="cadastrar-epi-input-group">
                 <label>Nome:</label>
                 <input

@@ -10,14 +10,6 @@
     max-width: 400px;
 }
 
-.cadastrar-epi-titulo {
-    text-align: center;
-    background-color: #005caa;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-}
-
 .cadastrar-epi-input-group {
     display: flex;
     align-items: center;

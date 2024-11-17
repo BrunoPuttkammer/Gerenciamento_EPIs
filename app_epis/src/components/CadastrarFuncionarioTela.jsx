@@ -25,27 +25,53 @@ const CadastrarFuncionarioTela = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+
+        if (name === "nome") {
+            // Apenas letras e espaços
+            if (/^[a-zA-Z\s]*$/.test(value)) {
+                setFormData({ ...formData, [name]: value });
+            }
+        } else if (name === "telefone") {
+            // Apenas números, limitando a 11 caracteres
+            if (/^\d{0,11}$/.test(value)) {
+                setFormData({ ...formData, [name]: value });
+            }
+        }
+    };
+
+    const formatPhoneNumber = (phone) => {
+        if (phone.length === 11) {
+            return `(${phone.slice(0, 2)}) ${phone.slice(2, 7)}-${phone.slice(7)}`;
+        }
+        return phone;
     };
 
     const handleSave = async () => {
-        if (formData.nome && formData.telefone) {
+        if (formData.nome && formData.telefone.length === 11) {
             try {
-                const response = await axios.post('http://localhost:3001/funcionario', formData);
+                const formattedPhone = formatPhoneNumber(formData.telefone);
+                const response = await axios.post('http://localhost:3001/funcionario', {
+                    ...formData,
+                    telefone: formattedPhone,
+                });
                 setFuncionarios((prevFuncionarios) => [...prevFuncionarios, response.data]);
                 setFormData({ nome: '', telefone: '' });
             } catch (error) {
                 console.error("Erro ao salvar funcionário:", error);
             }
         } else {
-            alert("Por favor, preencha todos os campos!");
+            alert("Por favor, preencha todos os campos corretamente!");
         }
     };
 
     const handleUpdate = async () => {
-        if (editingId && formData.nome && formData.telefone) {
+        if (editingId && formData.nome && formData.telefone.length === 11) {
             try {
-                const response = await axios.put(`http://localhost:3001/funcionario/${editingId}`, formData);
+                const formattedPhone = formatPhoneNumber(formData.telefone);
+                const response = await axios.put(`http://localhost:3001/funcionario/${editingId}`, {
+                    ...formData,
+                    telefone: formattedPhone,
+                });
                 setFuncionarios((prevFuncionarios) =>
                     prevFuncionarios.map((func) => func.id === editingId ? response.data : func)
                 );
@@ -55,7 +81,7 @@ const CadastrarFuncionarioTela = () => {
                 console.error("Erro ao atualizar funcionário:", error);
             }
         } else {
-            alert("Por favor, preencha todos os campos!");
+            alert("Por favor, preencha todos os campos corretamente!");
         }
     };
 
@@ -69,7 +95,7 @@ const CadastrarFuncionarioTela = () => {
     };
 
     const handleEditClick = (funcionario) => {
-        setFormData({ nome: funcionario.nome, telefone: funcionario.telefone });
+        setFormData({ nome: funcionario.nome, telefone: funcionario.telefone.replace(/\D/g, '') });
         setEditingId(funcionario.id);
     };
 
@@ -81,7 +107,7 @@ const CadastrarFuncionarioTela = () => {
     return (
         <div className="cadastro-funcionario-form-container">
             <img src="https://ecommerce.sesisenai.org.br/images/logos/sesi-senai.webp" alt="Logo" className="cadastro-funcionario-logo" />
-            <h2 className="cadastro-funcionario-titulo">Cadastrar Funcionário</h2>
+            <h2>Cadastrar Funcionário</h2>
             <div className="cadastro-funcionario-input-group">
                 <label>Nome:</label>
                 <input

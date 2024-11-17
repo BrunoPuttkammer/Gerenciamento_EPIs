@@ -18,3 +18,15 @@ body {
   min-height: 100vh;
   background-color: #e2f2ff;
 }
+
+h2 {
+  background-color: #005caa;
+  color: white;
+  padding: 10px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  border-radius: 8px 8px 10px 10px;
+  margin-bottom: 30px;
+}

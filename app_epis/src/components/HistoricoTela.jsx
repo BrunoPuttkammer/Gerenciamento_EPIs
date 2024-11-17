@@ -36,30 +36,28 @@ const HistoricoTela = () => {
     if (error) return <h2>Erro: {error.message}</h2>;
 
     return (
-        <body className='historico-body'>
-            <div className="historico-container">
-                <img src="https://ecommerce.sesisenai.org.br/images/logos/sesi-senai.webp" alt="Logo" className="historico-logo" />
-                <h2 className="historico-titulo">Histórico</h2>
+        <div className="historico-container">
+            <img src="https://ecommerce.sesisenai.org.br/images/logos/sesi-senai.webp" alt="Logo" className="historico-logo" />
+            <h2>Histórico</h2>
 
-                <div className="historico-header">
-                    <span>Funcionário</span>
-                    <span>EPI</span>
-                    <span>Data</span>
-                    <span>Ação</span>
-                </div>
-                
-                <ul className="historico-lista">
-                    {historico.map(item => (
-                        <li key={item.id} className="historico-item">
-                            <span>{item.funcionario_nome}</span>
-                            <span>{item.epi_nome}</span>
-                            <span>{item.data}</span>
-                            <span>{item.acao}</span>
-                        </li>
-                    ))}
-                </ul>
+            <div className="historico-header">
+                <span>Funcionário</span>
+                <span>EPI</span>
+                <span>Data</span>
+                <span>Ação</span>
             </div>
-        </body>
+            
+            <ul className="historico-lista">
+                {historico.map(item => (
+                    <li key={item.id} className="historico-item">
+                        <span>{item.funcionario_nome}</span>
+                        <span>{item.epi_nome}</span>
+                        <span>{item.data}</span>
+                        <span>{item.acao}</span>
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 };
 

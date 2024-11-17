@@ -1,4 +1,4 @@
-.historico-body {
+body {
     margin: 0;
     padding: 0;
     display: flex;
@@ -17,14 +17,6 @@
 
 .historico-logo {
     width: 400px;
-}
-
-.historico-titulo {
-    font-size: 30px;
-    color: white;
-    background-color: #005caa;
-    margin: 20px 0;
-    margin-bottom: 40px;
 }
 
 .historico-header {
