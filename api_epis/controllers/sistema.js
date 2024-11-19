@@ -140,7 +140,7 @@ const removerFuncionario = async (req, res) => {
 const listarMovimentacao = async (req, res) => {
     try {
         const resultado = await database.query(
-            'SELECT m.id, m.data, f.nome AS funcionario_nome, e.nome AS epi_nome, m.acao FROM movimentacoes m JOIN funcionarios f ON m.id_funcionario = f.id JOIN epis e ON m.id_epi = e.id'
+            'SELECT m.id, m.data, f.nome AS funcionario_nome, e.nome AS epi_nome, m.acao FROM movimentacoes m JOIN funcionarios f ON m.id_funcionario = f.id JOIN epis e ON m.id_epi = e.id ORDER BY m.data DESC'
         );
 
         const dadosFormatados = resultado.rows.map(mov => ({
@@ -159,72 +159,92 @@ const listarMovimentacao = async (req, res) => {
 };
 
 const retirarMovimentacao = async (req, res) => {
-    const { id_funcionario, id_epi } = req.body;
+    const { id_funcionario, id_epi, quantidade } = req.body;
+
+    if (!id_funcionario || !id_epi || !quantidade || quantidade <= 0) {
+        return res.status(400).send({ mensagem: 'Dados inválidos. Verifique id_funcionario, id_epi e quantidade.' });
+    }
+
     try {
         await database.query('BEGIN');
 
-        console.log(`EP: ${id_epi}, F: ${id_funcionario}`)
-
         const resultado = await database.query(
-            `SELECT quantidade FROM public.epis WHERE id = 1`
+            `SELECT quantidade FROM public.epis WHERE id = $1`,
+            [id_epi]
         );
-        
-        console.log(resultado.rows)
-        if (resultado.rows.length == 0 || resultado.rows[0].quantidade <= 0) {
+
+        if (resultado.rows.length === 0) {
             await database.query('ROLLBACK');
-            return res.status(400).send({ mensagem: 'EPI indisponível para retirada.' });
+            return res.status(400).send({ mensagem: 'EPI não encontrado.' });
+        }
+
+        const quantidadeDisponivel = resultado.rows[0].quantidade;
+
+        if (quantidadeDisponivel < quantidade) {
+            await database.query('ROLLBACK');
+            return res.status(400).send({ mensagem: `Quantidade insuficiente de EPIs. Disponível: ${quantidadeDisponivel}.` });
+        }
+
+        for (let i = 0; i < quantidade; i++) {
+            await database.query(
+                `INSERT INTO public.movimentacoes (id_funcionario, id_epi, acao) VALUES ($1, $2, 'retirou')`,
+                [id_funcionario, id_epi]
+            );
         }
 
         await database.query(
-            `INSERT INTO public.movimentacoes (id_funcionario, id_epi, acao) VALUES (${id_funcionario}, ${id_epi}, 'retirou')`,
-        );
-
-        await database.query(
-            `UPDATE public.epis SET quantidade = quantidade - 1 WHERE id = ${id_epi}`,
+            `UPDATE public.epis SET quantidade = quantidade - $1 WHERE id = $2`,
+            [quantidade, id_epi]
         );
 
         await database.query('COMMIT');
-
-        res.status(201).send({ mensagem: 'Movimentação adicionada e quantidade de EPI atualizada!' });
+        res.status(201).send({ mensagem: 'Movimentação de retirada registrada e quantidade de EPI atualizada!' });
     } catch (error) {
         await database.query('ROLLBACK');
         console.error(error);
-        res.status(500).send({ mensagem: 'Erro ao adicionar Movimentação' });
+        res.status(500).send({ mensagem: 'Erro ao registrar movimentação de retirada.' });
     }
 };
 
 const devolverMovimentacao = async (req, res) => {
-    const { id_funcionario, id_epi } = req.body;
+    const { id_funcionario, id_epi, quantidade } = req.body;
+
+    if (!id_funcionario || !id_epi || !quantidade || quantidade <= 0) {
+        return res.status(400).send({ mensagem: 'Dados inválidos. Verifique id_funcionario, id_epi e quantidade.' });
+    }
+
     try {
         await database.query('BEGIN');
 
         const resultadoRetirou = await database.query(
-            `SELECT COUNT(*)  public.movimentacoes (id_funcionario, id_epi, acao) VALUES (${id_funcionario}, ${id_epi}, 'devolveu')`,
-            
-        );
-
-        const totalRetiradas = parseInt(resultadoRetirou.rows[0].total_retiradas, 10);
-
-        const resultadoDevolveu = await database.query(
-            `SELECT COUNT(*) as total_devolucoes FROM public.movimentacoes WHERE id_funcionario = $1 AND id_epi = $2 AND acao = 'devolveu'`,
+            `SELECT COUNT(*) AS total_retiradas FROM public.movimentacoes WHERE id_funcionario = $1 AND id_epi = $2 AND acao = 'retirou'`,
             [id_funcionario, id_epi]
         );
+        const totalRetiradas = parseInt(resultadoRetirou.rows[0]?.total_retiradas || 0, 10);
 
-        const totalDevolucoes = parseInt(resultadoDevolveu.rows[0].total_devolucoes, 10);
+        const resultadoDevolveu = await database.query(
+            `SELECT COUNT(*) AS total_devolucoes FROM public.movimentacoes WHERE id_funcionario = $1 AND id_epi = $2 AND acao = 'devolveu'`,
+            [id_funcionario, id_epi]
+        );
+        const totalDevolucoes = parseInt(resultadoDevolveu.rows[0]?.total_devolucoes || 0, 10);
 
-        if (totalDevolucoes >= totalRetiradas) {
+        const saldoRetiradas = totalRetiradas - totalDevolucoes;
+
+        if (quantidade > saldoRetiradas) {
             await database.query('ROLLBACK');
-            return res.status(400).send({ mensagem: 'O usuário já devolveu a EPI(s)' });
+            return res.status(400).send({ mensagem: `Quantidade devolvida excede o saldo disponível para devolução. Saldo disponível: ${saldoRetiradas}.` });
+        }
+
+        for (let i = 0; i < quantidade; i++) {
+            await database.query(
+                `INSERT INTO public.movimentacoes (id_funcionario, id_epi, acao) VALUES ($1, $2, 'devolveu')`,
+                [id_funcionario, id_epi]
+            );
         }
 
         await database.query(
-            `INSERT INTO public.movimentacoes (id_funcionario, id_epi, acao) VALUES ($1, $2, 'devolveu')`,
-            [id_funcionario, id_epi]
-        );
-
-        await database.query(
-            `UPDATE public.epis SET quantidade = quantidade + 1 WHERE id = $1`,
-            [id_epi]
+            `UPDATE public.epis SET quantidade = quantidade + $1 WHERE id = $2`,
+            [quantidade, id_epi]
         );
 
         await database.query('COMMIT');
@@ -232,9 +252,10 @@ const devolverMovimentacao = async (req, res) => {
     } catch (error) {
         await database.query('ROLLBACK');
         console.error(error);
-        res.status(500).send({ mensagem: 'Erro ao registrar a devolução' });
+        res.status(500).send({ mensagem: 'Erro ao registrar movimentação de devolução.' });
     }
 };
+
 
 const removerMovimentacao = async (req, res) => {
     const { id } = req.params;
