@@ -140,7 +140,7 @@ const removerFuncionario = async (req, res) => {
 const listarMovimentacao = async (req, res) => {
     try {
         const resultado = await database.query(
-            'SELECT m.id, m.data, f.nome AS funcionario_nome, e.nome AS epi_nome, m.acao FROM movimentacoes m JOIN funcionarios f ON m.id_funcionario = f.id JOIN epis e ON m.id_epi = e.id ORDER BY m.data DESC'
+            'SELECT m.id, m.data, f.nome AS funcionario_nome, e.nome AS epi_nome, m.acao, m.quantiamov FROM movimentacoes m JOIN funcionarios f ON m.id_funcionario = f.id JOIN epis e ON m.id_epi = e.id ORDER BY m.data DESC'
         );
 
         const dadosFormatados = resultado.rows.map(mov => ({
@@ -148,13 +148,14 @@ const listarMovimentacao = async (req, res) => {
             data: new Date(mov.data).toLocaleString(),
             funcionario_nome: mov.funcionario_nome,
             epi_nome: mov.epi_nome,
-            acao: mov.acao
+            acao: mov.acao,
+            quantiamov: mov.quantiamov
         }));
 
         res.status(200).send(dadosFormatados);
     } catch (error) {
         console.error(error);
-        res.status(500).send({ mensagem: 'Erro ao listar Movimentaçõess' });
+        res.status(500).send({ mensagem: 'Erro ao listar Movimentações' });
     }
 };
 
@@ -185,12 +186,10 @@ const retirarMovimentacao = async (req, res) => {
             return res.status(400).send({ mensagem: `Quantidade insuficiente de EPIs. Disponível: ${quantidadeDisponivel}.` });
         }
 
-        for (let i = 0; i < quantidade; i++) {
-            await database.query(
-                `INSERT INTO public.movimentacoes (id_funcionario, id_epi, acao) VALUES ($1, $2, 'retirou')`,
-                [id_funcionario, id_epi]
-            );
-        }
+        await database.query(
+            `INSERT INTO public.movimentacoes (id_funcionario, id_epi, acao, quantiamov) VALUES ($1, $2, 'retirou', $3)`,
+            [id_funcionario, id_epi, quantidade]
+        );
 
         await database.query(
             `UPDATE public.epis SET quantidade = quantidade - $1 WHERE id = $2`,
@@ -217,13 +216,13 @@ const devolverMovimentacao = async (req, res) => {
         await database.query('BEGIN');
 
         const resultadoRetirou = await database.query(
-            `SELECT COUNT(*) AS total_retiradas FROM public.movimentacoes WHERE id_funcionario = $1 AND id_epi = $2 AND acao = 'retirou'`,
+            `SELECT COALESCE(SUM(quantiamov), 0) AS total_retiradas FROM public.movimentacoes WHERE id_funcionario = $1 AND id_epi = $2 AND acao = 'retirou'`,
             [id_funcionario, id_epi]
         );
         const totalRetiradas = parseInt(resultadoRetirou.rows[0]?.total_retiradas || 0, 10);
 
         const resultadoDevolveu = await database.query(
-            `SELECT COUNT(*) AS total_devolucoes FROM public.movimentacoes WHERE id_funcionario = $1 AND id_epi = $2 AND acao = 'devolveu'`,
+            `SELECT COALESCE(SUM(quantiamov), 0) AS total_devolucoes FROM public.movimentacoes WHERE id_funcionario = $1 AND id_epi = $2 AND acao = 'devolveu'`,
             [id_funcionario, id_epi]
         );
         const totalDevolucoes = parseInt(resultadoDevolveu.rows[0]?.total_devolucoes || 0, 10);
@@ -235,12 +234,10 @@ const devolverMovimentacao = async (req, res) => {
             return res.status(400).send({ mensagem: `Quantidade devolvida excede o saldo disponível para devolução. Saldo disponível: ${saldoRetiradas}.` });
         }
 
-        for (let i = 0; i < quantidade; i++) {
-            await database.query(
-                `INSERT INTO public.movimentacoes (id_funcionario, id_epi, acao) VALUES ($1, $2, 'devolveu')`,
-                [id_funcionario, id_epi]
-            );
-        }
+        await database.query(
+            `INSERT INTO public.movimentacoes (id_funcionario, id_epi, acao, quantiamov) VALUES ($1, $2, 'devolveu', $3)`,
+            [id_funcionario, id_epi, quantidade]
+        );
 
         await database.query(
             `UPDATE public.epis SET quantidade = quantidade + $1 WHERE id = $2`,
@@ -255,7 +252,6 @@ const devolverMovimentacao = async (req, res) => {
         res.status(500).send({ mensagem: 'Erro ao registrar movimentação de devolução.' });
     }
 };
-
 
 const removerMovimentacao = async (req, res) => {
     const { id } = req.params;

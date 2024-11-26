@@ -18,6 +18,7 @@ const HistoricoTela = () => {
                     axios.get('http://localhost:3001/epi'),
                 ]);
     
+                console.log('Histórico recebido:', historicoResponse.data); // Debug
                 setHistorico(historicoResponse.data);
                 setFuncionarios(funcionariosResponse.data);
                 setEpis(episResponse.data);
@@ -30,7 +31,7 @@ const HistoricoTela = () => {
         };
     
         fetchData();
-    }, []);
+    }, []);    
 
     if (loading) return <h2>Carregando...</h2>;
     if (error) return <h2>Erro: {error.message}</h2>;
@@ -42,18 +43,20 @@ const HistoricoTela = () => {
 
             <div className="historico-header">
                 <span>Funcionário</span>
+                <span>Ação</span>
+                <span>Quantidade</span>
                 <span>EPI</span>
                 <span>Data</span>
-                <span>Ação</span>
             </div>
             
             <ul className="historico-lista">
                 {historico.map(item => (
                     <li key={item.id} className="historico-item">
                         <span>{item.funcionario_nome}</span>
+                        <span>{item.acao}</span>
+                        <span>{item.quantiamov}</span>
                         <span>{item.epi_nome}</span>
                         <span>{item.data}</span>
-                        <span>{item.acao}</span>
                     </li>
                 ))}
             </ul>

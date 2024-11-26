@@ -21,7 +21,7 @@ body {
 
 .historico-header {
     display: grid;
-    grid-template-columns: 2fr 2fr 2fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 2fr 2fr;
     grid-gap: 10px;
     font-weight: bold;
     color: white;
@@ -43,7 +43,7 @@ body {
 
 .historico-item {
     display: grid;
-    grid-template-columns: 2fr 2fr 2fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 2fr 2fr;
     background-color: #F7F7F7;
     color: black;
     font-weight: bold;
